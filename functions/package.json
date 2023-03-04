@@ -1,0 +1,22 @@
+{
+  "name": "esp-firebase-gh-functions",
+  "description": "Cloud functions for esp-firebase-gh",
+  "engines": {
+    "node": "18"
+  },
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "actions-on-google": "3.0.0",
+    "cors": "2.8.5",
+    "firebase-admin": "11.5.0",
+    "firebase-functions": "4.2.1",
+    "googleapis": "112.0.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "eslint": "8.35.0",
+    "eslint-config-google": "0.14.0"
+  }
+}

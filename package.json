@@ -1,0 +1,18 @@
+{
+  "name": "esp-firebase-gh",
+  "version": "1.0.0",
+  "description": "Google Home integration using Firebase RTDB",
+  "scripts": {
+    "postinstall": "cd ./functions && npm i",
+    "firebase": "firebase",
+    "login": "firebase login",
+    "logout": "firebase logout",
+    "deploy": "firebase deploy"
+  },
+  "author": "mkorenko",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "firebase-tools": "11.24.0"
+  }
+}
