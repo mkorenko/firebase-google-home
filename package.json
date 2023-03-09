@@ -7,7 +7,9 @@
     "firebase": "firebase",
     "login": "firebase login",
     "logout": "firebase logout",
-    "deploy": "firebase deploy"
+    "init": "firebase init",
+    "deploy": "firebase deploy",
+    "deploy:dbrules": "firebase deploy --only database:rules"
   },
   "author": "mkorenko",
   "license": "MIT",
