@@ -126,7 +126,7 @@ You should see:
 
 ### 10. Link to Google Assistant
 1. On your phone, open the Google Assistant settings. Note that you should be logged in as the same account as in the console.
-2. Navigate to **Google Assistant > Settings > Works with Google* (under Services).
+2. Navigate to **Google Assistant > Settings > Works with Google** (under Services).
 3. Search for your project name by typing **test**.
 4. Select you project and follow the steps. \
 **Note**: you may get an error first time - this is due to time out / cloud functions cold start. In case of an error try again.
