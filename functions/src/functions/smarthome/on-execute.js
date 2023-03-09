@@ -41,7 +41,7 @@ const onExecute = async (body) => {
           }
 
           // device is online - submitting cmd
-          await firebaseRef.child(`${deviceId}/cmd`).update({
+          await firebaseRef.child(`${deviceId}/cmd`).set({
             command,
             params,
           });
