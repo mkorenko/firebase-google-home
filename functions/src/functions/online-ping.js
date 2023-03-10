@@ -18,6 +18,15 @@ const onlinePing =
     }
 
     const promises = [];
+
+    // keep smarthome cloud function warm
+    const [, GCP_PROJECT, , FUNCTION_REGION] =
+      process.env['EVENTARC_CLOUD_EVENT_SOURCE'].split('/');
+    const smarthomePingUrl =
+      `https://${FUNCTION_REGION}-${GCP_PROJECT}.cloudfunctions.net/smarthome/ping`;
+    promises.push(fetch(smarthomePingUrl));
+
+    // check device online timestamps
     rootSnapshot.forEach((deviceSnapshot) => {
       const deviceId = deviceSnapshot.key;
 

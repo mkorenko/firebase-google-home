@@ -13,6 +13,21 @@ app.onQuery(onQuery);
 app.onExecute(onExecute);
 app.onDisconnect(onDisconnect);
 
+// overwrite app handler to add dummy /ping endpoint
+// for keeping the function warm
+const origAppHandler = app.handler;
+app.handler = async function(body, headers, metadata) {
+  if (metadata.express.request.path === '/ping') {
+    return {
+      status: 200,
+      headers: {},
+      body: `ok`,
+    };
+  }
+
+  return await origAppHandler.call(this, body, headers, metadata);
+};
+
 const smarthome = functions.https.onRequest(app);
 
 module.exports = {smarthome};
