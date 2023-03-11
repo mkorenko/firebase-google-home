@@ -42,8 +42,9 @@ const onExecute = async (body) => {
 
           // device is online - submitting cmd
           await firebaseRef.child(`${deviceId}/cmd`).set({
-            command,
-            params,
+            'request_id': requestId,
+            'command': command,
+            'params': params,
           });
 
           const cmdStarted = new Date();

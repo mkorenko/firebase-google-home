@@ -19,6 +19,7 @@ const onSync = async (body) => {
       notificationSupportedByAgent: ghConfig.notificationSupportedByAgent,
       traits: [],
       attributes: {},
+      otherDeviceIds: [{deviceId}],
     };
 
     for (const [
