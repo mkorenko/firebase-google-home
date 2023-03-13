@@ -69,7 +69,7 @@ const onExecute = async (body) => {
                         loggerMethod = 'warn';
                       }
                     } else {
-                      result['partial_gh_state'] = snapshotVal;
+                      result['new_gh_state'] = snapshotVal;
                     }
 
                     resolve();
@@ -112,8 +112,7 @@ const onExecute = async (body) => {
       // device is online
       deviceResult['states'] = {
         ['online']: true,
-        ...cmdResult['gh_state'],
-        ...cmdResult['partial_gh_state'],
+        ...cmdResult['new_gh_state'],
       };
       if (cmdResult['error_code']) {
         deviceResult['errorCode'] = cmdResult['error_code'];
