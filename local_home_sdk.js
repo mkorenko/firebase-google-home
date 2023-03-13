@@ -19,11 +19,9 @@ const {
   IntentFlow,
 } = smarthome;
 
-const localHomeSdk = new App('1.1.0');
+const localHomeSdk = new App('1.2.0');
 
 const identifyHandler = async (request) => {
-  console.log("IDENTIFY intent: " + JSON.stringify(request, null, 2));
-
   const scanData = request.inputs[0].payload.device.udpScanData;
   if (!scanData) {
     throw new IntentFlow.HandlerError(
@@ -45,13 +43,11 @@ const identifyHandler = async (request) => {
       }
   };
 
-  console.log("IDENTIFY response: " + JSON.stringify(response, null, 2));
+  console.info(`identify: ${localDeviceId}`);
   return response;
 };
 
 const executeHandler = async (request) => {
-  console.log("EXECUTE intent: " + JSON.stringify(request, null, 2));
-
   const {requestId} = request;
   const {payload: {commands}} = request.inputs[0];
 
@@ -68,6 +64,7 @@ const executeHandler = async (request) => {
       for (const {command, params} of execution) {
         promises.push((async () => {
           console.log("Handling EXECUTE intent for device: " + JSON.stringify(device));
+
           const deviceId = device.id;
 
           const cmd = new DataFlow.HttpRequestData();
@@ -84,18 +81,19 @@ const executeHandler = async (request) => {
           cmd.dataType = 'application/json';
           cmd.isSecure = false;
 
-          console.debug("Sending HTTP /cmd request to the device:", cmd);
+          console.info(`execute: sending "${command}" to ${deviceId}`);
+          console.debug(`execute: ${deviceId} "${command}" request`, requestId, params);
 
           try {
             const cmdResponse = await localHomeSdk.getDeviceManager().send(cmd);
-            console.debug('HTTP cmd response:', cmdResponse);
 
             const {httpResponse} = cmdResponse;
-
             const cmdResult = JSON.parse(httpResponse.body);
+            console.debug(`execute: ${deviceId} "${command}" response`,cmdResult);
+
             if (cmdResult['error_code']) {
               response.setErrorState(deviceId, cmdResult['error_code']);
-              console.error('An error occurred sending the command', cmdResult['error_code']);
+              console.warn(`execute: ${deviceId} "${command}" error response: "${cmdResult['error_code']}"`);
               return;
             }
 
@@ -104,10 +102,9 @@ const executeHandler = async (request) => {
               ...cmdResult,
             };
             response.setSuccessState(deviceId, state);
-            console.debug(`HTTP cmd state set for "${deviceId}":`, state);
-          } catch (e) {
-            response.setErrorState(deviceId, e.errorCode || 'invalid_request');
-            console.error('An error occurred sending the command', e.errorCode);
+          } catch (err) {
+            response.setErrorState(deviceId, err.errorCode || 'hardError');
+            console.error('An error occurred sending the command', err);
           }
         })());
       }
@@ -128,8 +125,6 @@ const executeHandler = async (request) => {
 };
 
 const queryHandler = async (request) => {
-  console.log("QUERY intent: " + JSON.stringify(request, null, 2));
-
   const {requestId} = request;
   const {payload: {devices}} = request.inputs[0];
   const payload = {devices: {}};
@@ -139,6 +134,8 @@ const queryHandler = async (request) => {
     promises.push((async () => {
       const deviceId = device.id;
 
+      console.info(`query: querying ${deviceId}`);
+
       const cmd = new DataFlow.HttpRequestData();
       cmd.requestId = requestId;
       cmd.deviceId = deviceId;
@@ -146,12 +143,9 @@ const queryHandler = async (request) => {
       cmd.method = Constants.HttpOperation.GET;
       cmd.path = `/query`;
 
-      console.debug("Sending HTTP /query request to the device:", cmd);
-
       let ghState;
       try {
         const cmdResponse = await localHomeSdk.getDeviceManager().send(cmd);
-        console.debug('HTTP cmd response:', cmdResponse);
 
         const {httpResponse} = cmdResponse;
 
@@ -160,12 +154,13 @@ const queryHandler = async (request) => {
         }
 
         ghState = JSON.parse(httpResponse.body);
-        ghState['status'] = 'SUCCESS';
+
+        console.debug(`query: ${deviceId} response`, ghState);
         ghState['online'] = true;
       } catch (e) {
         ghState = {
           'status': 'ERROR',
-          'errorCode': e.errorCode || 'invalid_request',
+          'errorCode': e.errorCode || 'hardError',
         };
         console.error('An error occurred sending the command', e);
       }
