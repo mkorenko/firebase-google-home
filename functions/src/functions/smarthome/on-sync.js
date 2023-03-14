@@ -1,8 +1,8 @@
-const functions = require('firebase-functions');
+import functions from 'firebase-functions';
 
-const {firebaseRef} = require('../../firebase-ref');
+import {firebaseRef} from '../../firebase-ref.js';
 
-const onSync = async (body) => {
+export const onSync = async (body) => {
   const snapshot = await firebaseRef.once('value');
   const root = snapshot.val();
 
@@ -58,5 +58,3 @@ const onSync = async (body) => {
 
   return result;
 };
-
-module.exports = {onSync};

@@ -1,7 +1,6 @@
-const functions = require('firebase-functions');
-const util = require('util');
+import functions from 'firebase-functions';
 
-const auth = functions.https.onRequest((request, response) => {
+export const auth = functions.https.onRequest((request, response) => {
   if (request.method !== 'GET') {
     response.send(405, 'Method Not Allowed');
     return;
@@ -11,5 +10,3 @@ const auth = functions.https.onRequest((request, response) => {
 
   return response.redirect(`${base}?code=xxxxxx&state=${request.query.state}`);
 });
-
-module.exports = {auth};

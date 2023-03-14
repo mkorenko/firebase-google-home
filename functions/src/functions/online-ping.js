@@ -1,16 +1,16 @@
-const functions = require('firebase-functions');
+import functions from 'firebase-functions';
 
-const {firebaseRef} = require('../firebase-ref');
-const {
+import {firebaseRef} from '../firebase-ref.js';
+import {
   DEVICE_RESPONSE_TIMEOUT_MS,
   DEVICE_ONLINE_REFRESH_INTERVAL_MS,
-} = require('../constants');
+} from '../constants.js';
 
 const DEVICE_ONLINE_THRESHOLD =
     DEVICE_RESPONSE_TIMEOUT_MS +
     DEVICE_ONLINE_REFRESH_INTERVAL_MS;
 
-const onlinePing =
+export const onlinePing =
   functions.pubsub.schedule('every 5 minutes').onRun(async (context) => {
     const rootSnapshot = await firebaseRef.once('value');
     if (!rootSnapshot.hasChildren()) {
@@ -51,5 +51,3 @@ const onlinePing =
 
     await Promise.all(promises);
   });
-
-module.exports = {onlinePing};

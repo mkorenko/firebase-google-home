@@ -15,8 +15,9 @@
     "googleapis": "112.0.0"
   },
   "private": true,
+  "type": "module",
   "devDependencies": {
-    "eslint": "8.35.0",
+    "eslint": "8.36.0",
     "eslint-config-google": "0.14.0"
   }
 }

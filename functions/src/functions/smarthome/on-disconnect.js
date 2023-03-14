@@ -1,10 +1,8 @@
-const functions = require('firebase-functions');
+import functions from 'firebase-functions';
 
-const onDisconnect = (body, headers) => {
+export const onDisconnect = (body, headers) => {
   functions.logger.log(
       'onDisconnect: user account unlinked from Google Assistant');
   // Return empty response
   return {};
 };
-
-module.exports = {onDisconnect};

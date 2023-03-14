@@ -1,8 +1,8 @@
-const functions = require('firebase-functions');
+import functions from 'firebase-functions';
 
-const {firebaseRef} = require('../../firebase-ref');
+import {firebaseRef} from '../../firebase-ref.js';
 
-const onQuery = async (body) => {
+export const onQuery = async (body) => {
   const {requestId} = body;
   const {payload: {devices}} = body.inputs[0];
 
@@ -43,5 +43,3 @@ const onQuery = async (body) => {
 
   return {requestId, payload};
 };
-
-module.exports = {onQuery};

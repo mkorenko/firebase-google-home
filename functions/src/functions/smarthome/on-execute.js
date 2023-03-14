@@ -1,11 +1,11 @@
-const functions = require('firebase-functions');
+import functions from 'firebase-functions';
 
-const {firebaseRef} = require('../../firebase-ref');
-const {
+import {firebaseRef} from '../../firebase-ref.js';
+import {
   DEVICE_RESPONSE_TIMEOUT_MS,
-} = require('../../constants');
+} from '../../constants.js';
 
-const onExecute = async (body) => {
+export const onExecute = async (body) => {
   let loggerMethod = 'debug';
 
   const {requestId} = body;
@@ -140,5 +140,3 @@ const onExecute = async (body) => {
 
   return result;
 };
-
-module.exports = {onExecute};

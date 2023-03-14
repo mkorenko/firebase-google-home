@@ -1,7 +1,7 @@
-const functions = require('firebase-functions');
+import functions from 'firebase-functions';
 
-const {firebaseRef} = require('../firebase-ref');
-const {homegraph} = require('../homegraph');
+import {firebaseRef} from '../firebase-ref.js';
+import {homegraph} from '../homegraph.js';
 
 const onDeviceGhStateChanged = async (deviceId, snapshotVal) => {
   functions.logger.info(
@@ -58,7 +58,7 @@ const onDeviceGhStateChanged = async (deviceId, snapshotVal) => {
   );
 };
 
-const reportstate =
+export const reportstate =
   functions.database.ref('{deviceId}/state/gh_state')
       .onWrite(async (change, context) => {
         const {deviceId} = context.params;
@@ -68,5 +68,3 @@ const reportstate =
 
         await onDeviceGhStateChanged(deviceId, snapshot.val());
       });
-
-module.exports = {reportstate};

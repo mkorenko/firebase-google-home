@@ -1,10 +1,10 @@
-const functions = require('firebase-functions');
-const {smarthome: smarthomeApp} = require('actions-on-google');
+import functions from 'firebase-functions';
+import {smarthome as smarthomeApp} from 'actions-on-google';
 
-const {onSync} = require('./on-sync');
-const {onQuery} = require('./on-query');
-const {onExecute} = require('./on-execute');
-const {onDisconnect} = require('./on-disconnect');
+import {onSync} from './on-sync.js';
+import {onQuery} from './on-query.js';
+import {onExecute} from './on-execute.js';
+import {onDisconnect} from './on-disconnect.js';
 
 const app = smarthomeApp();
 
@@ -28,6 +28,4 @@ app.handler = async function(body, headers, metadata) {
   return await origAppHandler.call(this, body, headers, metadata);
 };
 
-const smarthome = functions.https.onRequest(app);
-
-module.exports = {smarthome};
+export const smarthome = functions.https.onRequest(app);

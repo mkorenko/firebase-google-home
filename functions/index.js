@@ -1,13 +1,5 @@
-const {auth} = require('./src/functions/auth/auth');
-const {token} = require('./src/functions/auth/token');
-const {smarthome} = require('./src/functions/smarthome/smarthome');
-const {reportstate} = require('./src/functions/reportstate');
-const {onlinePing} = require('./src/functions/online-ping');
-
-module.exports = {
-  auth,
-  token,
-  smarthome,
-  reportstate,
-  onlinePing,
-};
+export * from './src/functions/auth/auth.js';
+export * from './src/functions/auth/token.js';
+export * from './src/functions/smarthome/smarthome.js';
+export * from './src/functions/reportstate.js';
+export * from './src/functions/online-ping.js';

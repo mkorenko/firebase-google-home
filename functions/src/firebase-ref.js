@@ -1,6 +1,5 @@
-const admin = require('firebase-admin');
+import admin from 'firebase-admin';
 
 admin.initializeApp();
-const firebaseRef = admin.database().ref('/');
 
-module.exports = {firebaseRef};
+export const firebaseRef = admin.database().ref('/');

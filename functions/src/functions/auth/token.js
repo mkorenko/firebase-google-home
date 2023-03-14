@@ -1,6 +1,6 @@
-const functions = require('firebase-functions');
+import functions from 'firebase-functions';
 
-const token = functions.https.onRequest((request, response) => {
+export const token = functions.https.onRequest((request, response) => {
   const grantType = request.query.grant_type || request.body.grant_type;
 
   const result = {
@@ -15,5 +15,3 @@ const token = functions.https.onRequest((request, response) => {
 
   response.status(200).json(result);
 });
-
-module.exports = {token};
